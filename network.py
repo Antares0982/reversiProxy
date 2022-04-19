@@ -31,6 +31,7 @@ Modified By: Antares (antares0982@gmail.com)
 -----
 Copyright 2022 (c) OrangeX4
 """
+import os
 
 from flask import Flask, request
 from flask_socketio import SocketIO, close_room, emit, join_room, leave_room
@@ -224,5 +225,13 @@ def updateBoard(room_id, new_board, newest, reversal, current_piece):
          'reversal': reversal, 'currentPiece': current_piece}, to=str(room_id))
 
 
+currentDir = os.path.dirname(os.path.abspath(__file__))
+for file in os.listdir(currentDir):
+    if file.endswith("pem"):
+        PEM = os.path.join(currentDir, file)
+    elif file.endswith("key"):
+        KEY = os.path.join(currentDir, file)
+
 if __name__ == '__main__':
-    socketio.run(app, debug=False, port=7686, host='0.0.0.0')
+    socketio.run(app, debug=False, port=7686,
+                 host='0.0.0.0', ssl_context=(PEM, KEY))
