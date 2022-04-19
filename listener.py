@@ -1,6 +1,7 @@
 
 
 #!/usr/bin/python3
+import os
 from configparser import ConfigParser
 
 import requests
@@ -35,6 +36,13 @@ def ai_api():
     return Response(ans, mimetype='application/json')
 
 
+currentDir = os.path.dirname(os.path.abspath(__file__))
+for file in os.listdir(currentDir):
+    if file.endswith("pem"):
+        PEM = os.path.join(currentDir, file)
+    elif file.endswith("key"):
+        KEY = os.path.join(currentDir, file)
+
 # 挂载
 if __name__ == '__main__':
-    app.run(debug=False, port=7685, host='0.0.0.0')
+    app.run(debug=False, port=7685, host='0.0.0.0', ssl_context=(PEM, KEY))

@@ -1,4 +1,6 @@
 # self defined
+*.pem
+*.key
 .vscode/
 config.ini
 
